@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, Fragment } from 'react';
 
-function App() {
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllData } from './components/redux/action';
+
+import Login from './components/login/Login';
+import Home from "./components/home/Home";
+
+const App = () => {
+
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(getAllData());
+  }, []);
+
+  // console.log(products);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/home' element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
